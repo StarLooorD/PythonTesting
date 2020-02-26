@@ -1,0 +1,140 @@
+{
+    "Configuration": {
+        "GitPpkPath": "C:/Work/Git/ssh_git.ppk",
+        "GitCloneBaseLocalDir": "C:/Work/ACS/Clones",
+        "CloseTagName": "15.2_HFR7_GA",
+        "OpenBranchName": "15.2_HFR8",
+        "ESCROWBaseLocation": "\\\\10.159.125.2\\V11 Versions History\\ESCROW\\V15.2 HFR7",
+        "Components": {
+            "Tagger": {
+                "GitRepository": {
+                    "Name": "Interaction_Analytics_Tagger",
+                    "GitUser": "git",
+                    "GitServer": "tlvgit",
+                    "RoadmapReleaseBranch": "master",
+                    "MaintReleaseBranch": "maint"
+                },
+                "ESCROWData": {
+                    "sourceRelativeFolder": "",
+                    "destinationRelativeFolder": "TAS\\Tagger"
+                }
+            },
+            "EASearch": {
+                "GitRepository": {
+                    "EASearch": {
+                        "Name": "easearch.git",
+                        "GitUser": "git",
+                        "GitServer": "tlvgit",
+                        "RoadmapReleaseBranch": "master",
+                        "MaintReleaseBranch": "maint"
+                    }
+                },
+                "ESCROWData": {
+                    "sourceRelativeFolder": "",
+                    "destinationRelativeFolder": "TAS\\EASearch"
+                }
+            },
+            "ConfigService": {
+                "GitRepository": {
+                    "TextAnalytics_Configuration": {
+                        "Name": "TextAnalytics_Configuration",
+                        "GitUser": "git",
+                        "GitServer": "tlvgit",
+                        "RoadmapReleaseBranch": "master",
+                        "MaintReleaseBranch": "maint"
+                    }
+                },
+                "ESCROWData": {
+                    "sourceRelativeFolder": "",
+                    "destinationRelativeFolder": "TAS\\ConfigService"
+                }
+            },
+            "TBD": [
+                "TA_Training",
+                "EASolr",
+                "TA_Purger",
+                "TA_Scripts",
+                "TA_Tools",
+                "VTA_Portal",
+                "VTA_OLH",
+                "CIV",
+                "VTAC",
+                "OCIA",
+                "TA_Models",
+                "TA_PRTool",
+                "TAS_DAL",
+                "TAS_BL",
+                "TA_MTS",
+                "TA_DES",
+                "TA_KAFKA",
+                "TA_Model_Editor",
+                "IFA",
+                "TRS",
+                "IAS",
+                "ITS_ASB",
+                "RTSA",
+                "IAES",
+                "SA_Portal",
+                "SA_OLH"
+            ]
+        }
+    },
+    "Flows": {
+        "SA_Close_Flow": {
+            "flow_var_in": [],
+            "actions": [
+                {
+                    "action_name": "Create Multiple Tags {{ Configuration.CloseTagName }}`",
+                    "error": "continue",
+                    "action_type": "git_multi_create_tag",
+                    "tag_name": "{{ Configuration.CloseTagName }}",
+                    "branch_property_for_tagging": "RoadmapReleaseBranch",
+                    "include_components": "",
+                    "exclude_components": ""
+                },
+                {
+                    "action_name": "Copy ESCROW Multiple Components to {{ Configuration.ESCROWBaseLocation }}`",
+                    "error": "continue",
+                    "action_type": "git_copy_multi_folders",
+                    "branch_property_for_copying": "RoadmapReleaseBranch",
+                    "include_components": "",
+                    "exclude_components": "",
+                    "num_of _copying_threads": 12
+                }
+            ]
+        },
+        "TA_Close_Flow": {
+            "flow_var_in": [],
+            "actions": [
+                {
+                    "action_name": "Create Multiple Tags {{ Configuration.CloseTagName }}`",
+                    "error": "continue",
+                    "action_type": "git_multi_create_tag",
+                    "tag_name": "{{ Configuration.CloseTagName }}",
+                    "branch_property_for_tagging": "RoadmapReleaseBranch",
+                    "include_components": "",
+                    "exclude_components": ""
+                }
+            ]
+        },
+        "Platform_Open_Flows": {
+            "flow_var_in": [],
+            "actions": [
+                {
+                    "action_name": "Create Multiple Branches {{ Configuration.OpenBranchName }}`",
+                    "error": "continue",
+                    "action_type": "git_multi_create_branch",
+                    "branch_property_for_branching": "RoadmapReleaseBranch",
+                    "include_components": "",
+                    "exclude_components": ""
+                }
+            ]
+        }
+    },
+    "RunOrder": [
+        "SA_Close_Flow",
+        "TA_Close_Flow",
+        "SA_Open_Flow",
+        "TA_Open_Flow"
+    ]
+}
